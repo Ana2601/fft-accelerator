@@ -6,11 +6,7 @@ In-place radix-2 decimation-in-time FFT, parameterised in N, with streaming load
 
 ## Architecture
 
-```
-in stream ──► bit-reversed write ──► [ dual-port sample RAM ] ──► natural-order read ──► out stream
-                                          ▲      │
-                                          └ butterfly (W·b, (a±t)/2) ◄─ twiddle ROM (N/2 × Q1.15)
-```
+![Architecture](docs/diagrams/architecture.svg)
 
 - Complex Q1.15 samples; twiddles from `scripts/gen_twiddle.py`
 - Products rounded to nearest; every butterfly output is halved (unconditional block scaling), so the result is FFT(x)/N and **cannot overflow**
@@ -40,6 +36,12 @@ make test            # N=256
 make test N=1024 FRAMES=20
 make lint
 ```
+
+## Test run
+
+Output of the CI command (`make test lint`), captured from a local run:
+
+![Test run](docs/screenshots/test_run.svg)
 
 ## Limitations / next steps
 
